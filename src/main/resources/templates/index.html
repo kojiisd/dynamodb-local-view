@@ -1,0 +1,15 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DynamoDB Loacl Viewer</title>
+    <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.6.1/angular.min.js" th:src="@{/webjars/angularjs/1.6.1/angular.min.js}"></script>
+    <script src="../static/js/dynamodb-viewer.js"  th:src="@{/js/dynamodb-viewer.js}"></script>
+</head>
+<body ng-app="DynamoDbViewer">
+<div ng-controller="listTables">
+    <ul ng-repeat="table in tables">
+        <li>{{table.tableName}} {{table.status}}</li>
+    </ul>
+</div>
+</body>
+</html>

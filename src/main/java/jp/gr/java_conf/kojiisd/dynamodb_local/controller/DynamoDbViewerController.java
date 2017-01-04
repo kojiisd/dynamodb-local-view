@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author kojiisd
  */
 @Controller
-public class DynamoDbReadController {
+public class DynamoDbViewerController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String index() {
-        return "index";
+        return "/index";
     }
 }
