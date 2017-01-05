@@ -8,7 +8,7 @@ dynamoDbViewer.controller("listTables",
                       $scope.tables = response.data;
                   }, function(response) {
                       //Second function handles error
-                      alert("Error happens.");
+                      alert("Can not connect to DynamoDB Local. Please check connection and try again.");
                   });
               });
 
