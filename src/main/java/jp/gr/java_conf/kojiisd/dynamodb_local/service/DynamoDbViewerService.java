@@ -1,9 +1,7 @@
 package jp.gr.java_conf.kojiisd.dynamodb_local.service;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.model.ListTablesRequest;
 import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
-import jp.gr.java_conf.kojiisd.dynamodb_local.dto.DynamoDbTableDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

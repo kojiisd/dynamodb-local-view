@@ -2,14 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>DynamoDB Loacl Viewer</title>
-    <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.6.1/angular.min.js" th:src="@{/webjars/angularjs/1.6.1/angular.min.js}"></script>
-    <script src="../static/js/dynamodb-viewer.js"  th:src="@{/js/dynamodb-viewer.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.6.1/angular.min.js"
+            th:src="@{/webjars/angularjs/1.6.1/angular.min.js}"></script>
+    <link rel="stylesheet" href="../static/css/dynamodb-viewer.css" th:href="@{/css/dynamodb-viewer.css}"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/ng-table/0.3.3/ng-table.min.css"
+          th:href="@{/webjars/ng-table/0.3.3/ng-table.min.css}"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/ng-table/0.3.3/ng-table.min.js"
+            th:src="@{/webjars/ng-table/0.3.3/ng-table.min.js}"></script>
+    <script src="../static/js/dynamodb-viewer.js" th:src="@{/js/dynamodb-viewer.js}"></script>
+
+    <style>
+    table, th , td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+    table {
+        width: 50% !important;
+    }
+    </style>
+
 </head>
-<body ng-app="DynamoDbViewer">
-<div ng-controller="listTables">
-    <ul ng-repeat="table in tables">
-        <li>{{table}}</li>
-    </ul>
-</div>
+<body ng-app="DynamoDbViewer" ng-controller="listTables" >
+<h2>DynamoDB Local Table List</h2>
+<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
+    <tr ng-repeat="table in tables">
+        <td data-title="'No'">{{ $index + 1 }}</td>
+        <td data-title="'Table Name'">{{ table }}</td>
+    </tr>
+</table>
 </body>
 </html>
