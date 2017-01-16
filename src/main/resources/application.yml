@@ -4,3 +4,6 @@ amazon:
   aws:
     accesskey: local
     secretkey: secret
+spring:
+  thymeleaf:
+    cache: false

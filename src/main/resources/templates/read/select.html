@@ -28,13 +28,13 @@
     </style>
 
 </head>
-<body ng-app="DynamoDbViewer" ng-controller="listTables" >
-<h2>DynamoDB Local Table List</h2>
-<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
-    <tr ng-repeat="table in tables">
-        <td data-title="'No'">{{ $index + 1 }}</td>
-        <td data-title="'Table Name'"><a th:href="@{/inquiry/{{ table }}}">{{ table }}</a></td>
-    </tr>
-</table>
+<body ng-app="DynamoDbViewer" ng-controller="inquiryTable" >
+<h2><span th:text="${tableName} + ' Table Detail'"></span></h2>
+<!--<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">-->
+    <!--<tr ng-repeat="table in tables">-->
+        <!--<td data-title="'No'">{{ $index + 1 }}</td>-->
+        <!--<td data-title="'Table Name'">{{ table }}</td>-->
+    <!--</tr>-->
+<!--</table>-->
 </body>
 </html>
