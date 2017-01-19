@@ -1,7 +1,7 @@
-var dynamoDbViewer = angular.module('DynamoDbViewer', ['ngTable']);
+var dynamoDbViewer = angular.module('DynamoDbViewer', ['ngTable', 'angular-loading-bar']);
 
 dynamoDbViewer.controller("listTables",
-    function listTables($scope, $http, ngTableParams) {
+    function listTables($scope, $http, ngTableParams, cfpLoadingBar) {
     $scope.tableParams = new ngTableParams(
         { page: 1,
           count: 10 },
@@ -9,11 +9,14 @@ dynamoDbViewer.controller("listTables",
           total: 1,
           dataset: $scope.tables });
 
+    cfpLoadingBar.start();
     $http.get('http://localhost:8080/api/list-tables')
         .then(function(response) {
             //First function handles success
             $scope.tables = response.data;
+            cfpLoadingBar.complete();
         }, function(response) {
+            cfpLoadingBar.complete();
             //Second function handles error
             alert("Can not connect to DynamoDB Local. Please check connection and try again.");
         });
