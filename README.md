@@ -12,8 +12,15 @@ amazon:
 
 You don't need to modify "accesskey" and "secretkey".
 
+# Build
+Firstly to get a jar file type mvn command.
+
+```
+$ mvn clean package
+```
+
 # Execution
-Type below command after creating jar file with maven command.
+Type below command after creating jar file with maven command at project root folder.
 
 ```
 $ java -jar target/dynamodb-view-0.0.1-SNAPSHOT.jar
