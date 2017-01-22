@@ -10,10 +10,14 @@
           th:href="@{/webjars/ng-table/0.3.3/ng-table.min.css}"/>
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/angular-loading-bar/0.9.0/loading-bar.min.css"
+          th:href="@{/webjars/angular-loading-bar/0.9.0/loading-bar.min.css}"/>
     <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
     <script src="http://cdn.jsdelivr.net/webjars/ng-table/0.3.3/ng-table.min.js"
             th:src="@{/webjars/ng-table/0.3.3/ng-table.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/angular-loading-bar/0.9.0/loading-bar.min.js"
+            th:src="@{/webjars/angular-loading-bar/0.9.0/loading-bar.min.js}"></script>
     <script src="../static/js/dynamodb-viewer.js" th:src="@{/js/dynamodb-viewer.js}"></script>
 
     <style>
@@ -23,18 +27,27 @@
       padding: 5px;
     }
     table {
-        width: 50% !important;
+        width: 75% !important;
     }
     </style>
 
 </head>
-<body ng-app="DynamoDbViewer" ng-controller="inquiryTable" >
+<body ng-app="DynamoDbViewer" ng-controller="inquiryTable">
 <h2><span th:text="${tableName} + ' Table Detail'"></span></h2>
-<!--<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">-->
-    <!--<tr ng-repeat="table in tables">-->
-        <!--<td data-title="'No'">{{ $index + 1 }}</td>-->
-        <!--<td data-title="'Table Name'">{{ table }}</td>-->
-    <!--</tr>-->
-<!--</table>-->
+<div th:attr="ng-init='init(\''+${tableName}+'\')'" ></div>
+<table class="table table-condensed table-bordered table-striped">
+    <thead>
+        <tr ng-repeat="data in datas | limitTo:1">
+            <th>No</th>
+            <th ng-repeat="(key, val) in data">{{ key }}</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="data in datas">
+          <td>{{ $index + 1 }}</td>
+          <td ng-repeat="(key, val) in data">{{ val }}</td>
+      </tr>
+    </tbody>
+</table>
 </body>
 </html>

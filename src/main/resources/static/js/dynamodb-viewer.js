@@ -23,22 +23,28 @@ dynamoDbViewer.controller("listTables",
     });
 
 dynamoDbViewer.controller("inquiryTable",
-    function inquiryTable($scope, $http, ngTableParams){
-    $scope.tableParams = new ngTableParams(
-        { page: 1,
-          count: 10 },
-        { counts: [],
-          total: 1,
-          dataset: $scope.tables });
+    function inquiryTable($scope, $http, ngTableParams, cfpLoadingBar){
+    $scope.init = function(tableName) {
+        $scope.tableName = tableName;
+        $scope.tableParams = new ngTableParams(
+            { page: 1,
+              count: 10 },
+            { counts: [],
+              total: 1,
+              dataset: $scope.tables });
 
-    $http.get('http://localhost:8080/api/inquiry-table/' + $scope.tableName)
-        .then(function(response) {
-            //First function handles success
-            $scope.tables = response.data;
-        }, function(response) {
-            //Second function handles error
-            alert("Can not connect to DynamoDB Local. Please check connection and try again.");
-        });
+        cfpLoadingBar.start();
+        $http.get('http://localhost:8080/api/inquiry-table/' + $scope.tableName)
+            .then(function(response) {
+                //First function handles success
+                $scope.datas = response.data;
+                cfpLoadingBar.complete();
+            }, function(response) {
+                //Second function handles error
+                alert("Can not connect to DynamoDB Local. Please check connection and try again.");
+                cfpLoadingBar.complete();
+            });
+        };
     });
 
 
