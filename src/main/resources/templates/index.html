@@ -33,6 +33,9 @@
 
 </head>
 <body ng-app="DynamoDbViewer" ng-controller="listTables" >
+
+<div th:attr="ng-init='init('+${@environment.getProperty('server.host')}+', '+${@environment.getProperty('server.port')}+')'"></div>
+
 <h2>DynamoDB Local Table List</h2>
 <table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
     <tr ng-repeat="table in tables">

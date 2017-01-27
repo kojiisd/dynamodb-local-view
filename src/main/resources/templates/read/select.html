@@ -34,7 +34,7 @@
 </head>
 <body ng-app="DynamoDbViewer" ng-controller="inquiryTable">
 <h2><span th:text="${tableName} + ' Table Detail'"></span></h2>
-<div th:attr="ng-init='init(\''+${tableName}+'\')'" ></div>
+<div th:attr="ng-init='init(\''+${tableName}+'\', '+${@environment.getProperty('server.host')}+', '+${@environment.getProperty('server.port')}+' )'" ></div>
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr ng-repeat="data in datas | limitTo:1">
