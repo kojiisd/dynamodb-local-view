@@ -25,3 +25,8 @@ Type below command after creating jar file with maven command at project root fo
 ```
 $ java -jar target/dynamodb-view-0.0.1-SNAPSHOT.jar
 ```
+If you want to access to DynamoDB with not default host and port, you can type below.
+
+```
+$ java -jar target/dynamodb-view-0.0.1-SNAPSHOT.jar --server.host=<YOUR HOST> --server.port=<YOUR PORT>
+```
