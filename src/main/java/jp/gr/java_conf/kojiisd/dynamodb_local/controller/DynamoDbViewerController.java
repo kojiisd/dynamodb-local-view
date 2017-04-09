@@ -17,7 +17,7 @@ public class DynamoDbViewerController {
         return "/index";
     }
 
-    @RequestMapping(value = "/inquiry/{tableName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/scan/{tableName}", method = RequestMethod.GET)
     public String inquiry(@PathVariable("tableName") String tableName, Model model) {
         model.addAttribute("tableName", tableName);
         return "/read/select";

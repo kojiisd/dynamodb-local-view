@@ -1,5 +1,9 @@
 package jp.gr.java_conf.kojiisd.dynamodb_local.controller;
 
+import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
+import com.amazonaws.services.dynamodbv2.model.TableDescription;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.gr.java_conf.kojiisd.dynamodb_local.service.DynamoDbViewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +28,16 @@ public class DynamoDbViewerRest {
         return this.viewerService.getAllTables();
     }
 
-    @RequestMapping(value = "inquiry-table/{tableName}")
-    public List<Map<String, String>> inquiryTable(@PathVariable("tableName") String tableName) {
+    @RequestMapping(value = "scan/{tableName}")
+    public List<Map<String, String>> scanTable(@PathVariable("tableName") String tableName) {
         return viewerService.scanTableByTableName(tableName);
+    }
+
+    @RequestMapping(value = "inquiry/{tableName}")
+    public String inquiryTable(@PathVariable("tableName") String tableName) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        TableDescription tableDescription = viewerService.inquiryTableByTableName(tableName);
+        String jsonResult = mapper.writeValueAsString(tableDescription);
+        return jsonResult;
     }
 }

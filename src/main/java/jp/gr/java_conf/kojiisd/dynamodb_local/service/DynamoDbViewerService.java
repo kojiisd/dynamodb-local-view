@@ -1,10 +1,7 @@
 package jp.gr.java_conf.kojiisd.dynamodb_local.service;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
-import com.amazonaws.services.dynamodbv2.model.ScanRequest;
-import com.amazonaws.services.dynamodbv2.model.ScanResult;
+import com.amazonaws.services.dynamodbv2.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -75,6 +72,19 @@ public class DynamoDbViewerService {
         }
 
         return resultMapList;
+    }
+
+    /**
+     * Get describe information for table.
+     *
+     * @param tableName table name
+     * @return table description
+     */
+    public TableDescription inquiryTableByTableName(String tableName) {
+        DescribeTableRequest request =  new DescribeTableRequest().withTableName(tableName);
+        DescribeTableResult describeResult = this.dynamoDB.describeTable(request);
+
+        return describeResult.getTable();
     }
 
     /**
