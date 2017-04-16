@@ -1,7 +1,7 @@
 var dynamoDbViewer = angular.module('DynamoDbViewer', ['ngTable', 'angular-loading-bar', 'ui.bootstrap']);
 
 dynamoDbViewer.controller("listTables",
-    function listTables($scope, $uibModal, $http, ngTableParams, cfpLoadingBar) {
+    function listTables($scope, $uibModal, $window, $http, ngTableParams, cfpLoadingBar) {
     var tmpHost;
     var tmpPort;
     $scope.init = function(host, port) {
@@ -44,6 +44,51 @@ dynamoDbViewer.controller("listTables",
                 alert("Can not connect to DynamoDB Local. Please check connection and try again.");
             });
     };
+
+    $scope.deleteTable = function(tableName) {
+        $scope.targetTableName = tableName;
+        $scope.operation = "Clear Data";
+        var url = "http://" + tmpHost + ":" + tmpPort + "/api/delete/" + tableName
+        var inquiryData;
+
+        var modalInstance = $uibModal.open({
+            templateUrl: "confirm.html",
+            scope: $scope
+        });
+
+        modalInstance.result.then(function() {
+            $http.get(url)
+                .then(function(response) {
+                    alert("Table clear finished.")
+                }, function(response) {
+                    alert("Error happened while deleting. Please check connection and try again.");
+                });
+        }, function() {});
+
+    };
+
+        $scope.dropTable = function(tableName) {
+            $scope.targetTableName = tableName;
+            $scope.operation = "Drop";
+            var url = "http://" + tmpHost + ":" + tmpPort + "/api/drop/" + tableName
+            var inquiryData;
+
+            var modalInstance = $uibModal.open({
+                templateUrl: "confirm.html",
+                scope: $scope
+            });
+
+            modalInstance.result.then(function() {
+                $http.get(url)
+                    .then(function(response) {
+                        alert("Table drop finished.")
+                        $window.location.reload();
+                    }, function(response) {
+                        alert("Error happened while dropping. Please check connection and try again.");
+                    });
+            }, function() {});
+
+        };
 });
 
 

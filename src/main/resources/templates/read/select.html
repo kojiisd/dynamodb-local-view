@@ -54,7 +54,6 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr ng-repeat="data in datas | limitTo:1">
-            <th>No</th>
             <th ng-repeat="(key, val) in data">
                 <a href="#" ng-click="setSortType(key); setSortReverse(sortReverse)">
                     <span ng-show="sortType == '{{ key }}' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
@@ -66,7 +65,6 @@
     </thead>
     <tbody>
       <tr ng-repeat="data in datas | orderBy:sortType:sortReverse | filter:searchWord">
-          <td>{{ $index + 1 }}</td>
           <td ng-repeat="(key, val) in data">{{ val }}</td>
       </tr>
     </tbody>
