@@ -45,7 +45,7 @@
     <tr ng-repeat="table in tables">
         <td style="width:10%" data-title="'No'">{{ $index + 1 }}</td>
         <td style="width:70%" data-title="'Table Name'"><a href="#" ng-click="inquiry(table)">{{ table }}</a></td>
-        <td style="width:20%; text-align:center" data-title="'Operation'"><a th:href="@{/scan/{{ table }}}">Scan</a>&nbsp;&nbsp;<a href="#">Query</a>&nbsp;&nbsp;<a href="#">Clear</a></td>
+        <td style="width:20%; text-align:center" data-title="'Operation'"><a th:href="@{/scan/{{ table }}}">Scan</a>&nbsp;&nbsp;<!--<a href="#">Query</a>&nbsp;&nbsp;-->Query&nbsp;&nbsp;<a href="#">Clear</a></td>
     </tr>
 </table>
 

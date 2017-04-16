@@ -51,6 +51,20 @@ dynamoDbViewer.controller("inquiryTable",
     function inquiryTable($scope, $http, ngTableParams, cfpLoadingBar){
     $scope.init = function(tableName, host, port) {
         $scope.tableName = tableName;
+
+        $scope.sortType = '';
+        $scope.setSortType = function(sortType) {
+            $scope.sortType = sortType;
+        }
+        $scope.sortReverse = false;
+        $scope.setSortReverse = function(sortReverse) {
+            $scope.sortReverse = !sortReverse;
+        }
+        $scope.searchWord = '';
+        $scope.setSearchWord = function(searchWord) {
+            $scope.searchWord = searchWord;
+        }
+
         $scope.tableParams = new ngTableParams(
             { page: 1,
               count: 10 },
