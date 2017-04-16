@@ -30,7 +30,7 @@ public class DynamoDbViewerRest {
 
     @RequestMapping(value = "scan/{tableName}")
     public List<Map<String, String>> scanTable(@PathVariable("tableName") String tableName) {
-        return viewerService.scanTableByTableName(tableName);
+        return this.viewerService.scanTableByTableName(tableName);
     }
 
     @RequestMapping(value = "inquiry/{tableName}")
@@ -39,5 +39,15 @@ public class DynamoDbViewerRest {
         TableDescription tableDescription = viewerService.inquiryTableByTableName(tableName);
         String jsonResult = mapper.writeValueAsString(tableDescription);
         return jsonResult;
+    }
+
+    @RequestMapping(value = "delete/{tableName}")
+    public void deleteTable(@PathVariable("tableName") String tableName) throws InterruptedException {
+        this.viewerService.deleteTableByTableName(tableName);
+    }
+
+    @RequestMapping(value = "drop/{tableName}")
+    public void dropTable(@PathVariable("tableName") String tableName) {
+        this.viewerService.dropTableByTableName(tableName);
     }
 }

@@ -1,6 +1,8 @@
 package jp.gr.java_conf.kojiisd.dynamodb_local.service;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,13 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Viewer service for DynamoDB.
+ *
  * @author kojiisd
  */
 @Service
@@ -81,10 +81,44 @@ public class DynamoDbViewerService {
      * @return table description
      */
     public TableDescription inquiryTableByTableName(String tableName) {
-        DescribeTableRequest request =  new DescribeTableRequest().withTableName(tableName);
+        DescribeTableRequest request = new DescribeTableRequest().withTableName(tableName);
         DescribeTableResult describeResult = this.dynamoDB.describeTable(request);
 
         return describeResult.getTable();
+    }
+
+    /**
+     * Delete table.
+     *
+     * @param tableName table name
+     */
+    public void deleteTableByTableName(String tableName) throws InterruptedException {
+        DescribeTableRequest describeRequest = new DescribeTableRequest().withTableName(tableName);
+        DescribeTableResult describeResult = this.dynamoDB.describeTable(describeRequest);
+        CreateTableRequest createRequest = new CreateTableRequest().withTableName(tableName)
+                .withAttributeDefinitions(describeResult.getTable().getAttributeDefinitions())
+                .withKeySchema(describeResult.getTable().getKeySchema())
+                .withProvisionedThroughput(new ProvisionedThroughput()
+                        .withReadCapacityUnits(describeResult.getTable().getProvisionedThroughput().getReadCapacityUnits())
+                        .withWriteCapacityUnits(describeResult.getTable().getProvisionedThroughput().getWriteCapacityUnits()));
+
+        DynamoDB db = new DynamoDB(this.dynamoDB);
+        Table table = db.getTable(tableName);
+        table.delete();
+        table.waitForDelete();
+
+        table = db.createTable(createRequest);
+        table.waitForActive();
+        
+    }
+
+    /**
+     * Drop table.
+     *
+     * @param tableName table name
+     */
+    public void dropTableByTableName(String tableName) {
+        this.dynamoDB.deleteTable(tableName);
     }
 
     /**
