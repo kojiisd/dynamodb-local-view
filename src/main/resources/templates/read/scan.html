@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DynamoDB Loacl Viewer</title>
+    <title>[Scan]DynamoDB Loacl Viewer</title>
     <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.6.1/angular.min.js"
             th:src="@{/webjars/angularjs/1.6.1/angular.min.js}"></script>
     <script src="http://cdn.jsdelivr.net/webjars/jquery/3.1.1-1/jquery.min.js"
@@ -39,7 +39,7 @@
 
 </head>
 <body ng-app="DynamoDbViewer" ng-controller="inquiryTable">
-<h2><span th:text="${tableName} + ' Table Detail'"></span></h2>
+<h2><span th:text="${tableName} + ' Table Scan'"></span></h2>
 <div th:attr="ng-init='init(\''+${tableName}+'\', '+${@environment.getProperty('server.host')}+', '+${@environment.getProperty('server.port')}+' )'" ></div>
 
 <form>
@@ -56,8 +56,7 @@
         <tr ng-repeat="data in datas | limitTo:1">
             <th ng-repeat="(key, val) in data">
                 <a href="#" ng-click="setSortType(key); setSortReverse(sortReverse)">
-                    <span ng-show="sortType == '{{ key }}' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                    <span ng-show="sortType == '{{ key }}' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == '{{ key }}'" class="fa"></span>
                     {{ key }}
                 </a>
             </th>

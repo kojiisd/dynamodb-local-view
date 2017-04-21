@@ -20,6 +20,12 @@ public class DynamoDbViewerController {
     @RequestMapping(value = "/scan/{tableName}", method = RequestMethod.GET)
     public String inquiry(@PathVariable("tableName") String tableName, Model model) {
         model.addAttribute("tableName", tableName);
-        return "/read/select";
+        return "/read/scan";
+    }
+
+    @RequestMapping(value = "/query/{tableName}", method = RequestMethod.GET)
+    public String query(@PathVariable("tableName") String tableName, Model model) {
+        model.addAttribute("tableName", tableName);
+        return "/read/query";
     }
 }

@@ -39,10 +39,10 @@ dynamoDbViewer.controller("listTables",
                 $uibModal.open({
                     templateUrl: "inquiry.html",
                     scope: $scope
-                });
-            }, function(response) {
-                alert("Can not connect to DynamoDB Local. Please check connection and try again.");
             });
+        }, function(response) {
+            alert("Can not connect to DynamoDB Local. Please check connection and try again.");
+        });
     };
 
     $scope.deleteTable = function(tableName) {
@@ -67,28 +67,28 @@ dynamoDbViewer.controller("listTables",
 
     };
 
-        $scope.dropTable = function(tableName) {
-            $scope.targetTableName = tableName;
-            $scope.operation = "Drop";
-            var url = "http://" + tmpHost + ":" + tmpPort + "/api/drop/" + tableName
-            var inquiryData;
+    $scope.dropTable = function(tableName) {
+        $scope.targetTableName = tableName;
+        $scope.operation = "Drop";
+        var url = "http://" + tmpHost + ":" + tmpPort + "/api/drop/" + tableName
+        var inquiryData;
 
-            var modalInstance = $uibModal.open({
-                templateUrl: "confirm.html",
-                scope: $scope
-            });
+        var modalInstance = $uibModal.open({
+            templateUrl: "confirm.html",
+            scope: $scope
+        });
 
-            modalInstance.result.then(function() {
-                $http.get(url)
-                    .then(function(response) {
-                        alert("Table drop finished.")
-                        $window.location.reload();
-                    }, function(response) {
-                        alert("Error happened while dropping. Please check connection and try again.");
-                    });
-            }, function() {});
+        modalInstance.result.then(function() {
+            $http.get(url)
+                .then(function(response) {
+                    alert("Table drop finished.")
+                    $window.location.reload();
+                }, function(response) {
+                    alert("Error happened while dropping. Please check connection and try again.");
+                });
+        }, function() {});
 
-        };
+    };
 });
 
 
@@ -98,24 +98,32 @@ dynamoDbViewer.controller("inquiryTable",
         $scope.tableName = tableName;
 
         $scope.sortType = '';
+        $scope.preSortType = '';
         $scope.setSortType = function(sortType) {
             $scope.sortType = sortType;
         }
         $scope.sortReverse = false;
         $scope.setSortReverse = function(sortReverse) {
-            $scope.sortReverse = !sortReverse;
+        // TODO to put icon for sort order
+//            if ($scope.preSortType != $scope.sortType) {
+//                $scope.sortReverse = false;
+//            } else {
+//                $scope.sortReverse = !sortReverse;
+//            }
+//            $scope.preSortType = $scope.sortType;
+                $scope.sortReverse = !sortReverse;
         }
         $scope.searchWord = '';
         $scope.setSearchWord = function(searchWord) {
             $scope.searchWord = searchWord;
         }
 
-        $scope.tableParams = new ngTableParams(
-            { page: 1,
-              count: 10 },
-            { counts: [],
-              total: 1,
-              dataset: $scope.tables });
+    $scope.tableParams = new ngTableParams(
+        { page: 1,
+          count: 10 },
+        { counts: [],
+          total: 1,
+          dataset: $scope.tables });
 
         var tmpHost = (host == "" || host == null) ? "localhost" : host;
         var tmpPort = (port == "" || port == null) ? "8080" : port;
@@ -134,3 +142,46 @@ dynamoDbViewer.controller("inquiryTable",
             });
         };
     });
+
+dynamoDbViewer.controller("queryTable",
+    function inquiryTable($scope, $http, ngTableParams, cfpLoadingBar){
+    $scope.init = function(tableName, host, port) {
+        $scope.tableName = tableName;
+
+        $scope.sortType = '';
+        $scope.setSortType = function(sortType) {
+            $scope.sortType = sortType;
+        }
+        $scope.sortReverse = false;
+        $scope.setSortReverse = function(sortReverse) {
+            $scope.sortReverse = !sortReverse;
+        }
+        $scope.searchWord = '';
+        $scope.setSearchWord = function(searchWord) {
+            $scope.searchWord = searchWord;
+        }
+
+    $scope.tableParams = new ngTableParams(
+        { page: 1,
+          count: 10 },
+        { counts: [],
+          total: 1,
+          dataset: $scope.tables });
+
+    var tmpHost = (host == "" || host == null) ? "localhost" : host;
+    var tmpPort = (port == "" || port == null) ? "8080" : port;
+
+    var url = "http://" + tmpHost + ":" + tmpPort + "/api/query/"
+    cfpLoadingBar.start();
+    $http.get(url + $scope.tableName)
+        .then(function(response) {
+            //First function handles success
+            $scope.datas = response.data;
+            cfpLoadingBar.complete();
+        }, function(response) {
+            //Second function handles error
+            alert("Can not connect to DynamoDB Local. Please check connection and try again.");
+            cfpLoadingBar.complete();
+        });
+    };
+});

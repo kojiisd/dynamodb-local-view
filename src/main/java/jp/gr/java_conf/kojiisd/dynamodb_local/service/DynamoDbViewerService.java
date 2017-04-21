@@ -109,7 +109,7 @@ public class DynamoDbViewerService {
 
         table = db.createTable(createRequest);
         table.waitForActive();
-        
+
     }
 
     /**
